@@ -1,0 +1,22 @@
+{
+  "covidStat":"Statisiques du corona virus (COVID-19)",
+  "countries": "Pays",
+  "country": "Pays",
+  "cases": "Cas",
+  "todayCases": "Cas du jour",
+  "deaths": "Morts",
+  "todayDeaths": "Morts du jour",
+  "recovery": "Guerris",
+  "active": "Actif",
+  "critical": "Critique",
+  "casesPerOneMillion": "Cas pour un million",
+  "deathsPercentage": "Taux des deces",
+  "recoveredPercentage": "Taux de guerrison",
+  "activePercentage": "Taux d'actifs",
+  "language":"Langue",
+  "french":"Français",
+  "english":"Anglais",
+  "sortByCases":"Trier par cas",
+  "sortByDeaths":"Trier par deces",
+  "sortByRecovered":"Trier par guerisons"
+}

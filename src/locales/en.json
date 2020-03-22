@@ -1,0 +1,22 @@
+{
+  "covidStat":"Covid-19 Statistics",
+  "countries": "Countries",
+  "country": "Country",
+  "cases": "Cases",
+  "todayCases": "Today Cases",
+  "deaths": "Deaths",
+  "todayDeaths": "Today Deaths",
+  "recovery": "Recovered",
+  "active": "Active",
+  "critical": "Critical",
+  "casesPerOneMillion": "Cases per one million",
+  "deathsPercentage": "Deaths Percentage",
+  "recoveredPercentage": "Recovered Percentage",
+  "activePercentage": "Active Percentage",
+  "language":"Language",
+  "french":"French",
+  "english":"English",
+  "sortByCases":"Order By Cases",
+  "sortByDeaths":"Order By Deaths",
+  "sortByRecovered":"Order By Recovered"
+}
