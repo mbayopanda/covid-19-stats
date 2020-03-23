@@ -9,24 +9,21 @@
     </div>
 
     <div class="card" v-if="!loading">
-      <h3>{{ country.country }}</h3>
+       
+      <h3>
+        <i :class="'flag-icon flag-icon-' + country.flag"></i><br>
+        {{ country.countryRegion }} <br>
+        <small v-if="country.provinceState">{{ country.provinceState }}</small>
+      </h3>
 
       <div class="rate">
         <div>
-          <h2>{{ country.cases }}</h2>
+          <h2>{{ country.confirmed }}</h2>
           <span>{{ $t('cases') }}</span>
-        </div>
-        <div>
-          <h2>{{ country.todayCases }}</h2>
-          <span>{{ $t('todayCases') }}</span>
         </div>
         <div>
           <h2>{{ country.deaths }}</h2>
           <span>{{ $t('deaths') }}</span>
-        </div>
-        <div>
-          <h2>{{ country.todayDeaths }}</h2>
-          <span>{{ $t('todayDeaths') }}</span>
         </div>
         <div>
           <h2>{{ country.recovered }}</h2>
@@ -35,14 +32,6 @@
         <div>
           <h2>{{ country.active }}</h2>
           <span>{{ $t('active') }}</span>
-        </div>
-        <div>
-          <h2>{{ country.critical }}</h2>
-          <span>{{ $t('critical') }}</span>
-        </div>
-        <div>
-          <h2>{{ country.casesPerOneMillion }}</h2>
-          <span>{{ $t('casesPerOneMillion') }}</span>
         </div>
       </div>
 
@@ -115,15 +104,17 @@ export default {
   },
   created() {
     this.loading = true;
-    return Axios.get('https://corona.lmao.ninja/countries')
+    return Axios.get('https://covid19.mathdro.id/api/confirmed')
       .then(res => {
         [this.country] = res.data.filter(item => {
-          return item.country.toLowerCase().indexOf(this.$route.params.country.toLowerCase()) > -1
+          return item.countryRegion.toLowerCase().indexOf(this.$route.params.country.toLowerCase()) > -1
         });
 
-        this.country.percentageDeaths = Number((this.country.deaths / this.country.cases) * 100, 2).toFixed(2);
-        this.country.percentageRecovered = Number((this.country.recovered / this.country.cases) * 100, 2).toFixed(2);
-        this.country.percentageActive = Number((this.country.active / this.country.cases) * 100, 2).toFixed(2);
+        this.country.iso2 = this.country.countryRegion === 'Congo (Kinshasa)' ? 'cd' : this.country.iso2;
+        this.country.flag = this.country.iso2 ? String(this.country.iso2).toLowerCase() : '';
+        this.country.percentageDeaths = Number((this.country.deaths / this.country.confirmed) * 100, 2).toFixed(2);
+        this.country.percentageRecovered = Number((this.country.recovered / this.country.confirmed) * 100, 2).toFixed(2);
+        this.country.percentageActive = Number((this.country.active / this.country.confirmed) * 100, 2).toFixed(2);
       })
       .catch(err => console.log(err))
       .finally(() => {

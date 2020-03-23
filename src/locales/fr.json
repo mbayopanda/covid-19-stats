@@ -16,6 +16,8 @@
   "language":"Langue",
   "french":"Français",
   "english":"Anglais",
+  "swahili":"Swahili",
+  "lingala":"Lingala",
   "sortByCases":"Trier par cas",
   "sortByDeaths":"Trier par deces",
   "sortByRecovered":"Trier par guerisons"

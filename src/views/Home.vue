@@ -13,8 +13,9 @@
     <div class="content">
       <ul>
         <li v-for="(item, index) in filteredList" :key="index">
-          <router-link :to="'/details/' + item.country" class="item">
-            <h3>{{ item.country }} : <span class="success">{{ item.cases }}</span> </h3>
+          <router-link :to="'/details/' + item.countryRegion" class="item">
+            <i :class="'flag-icon flag-icon-' + item.flag"></i> <small v-if="item.provinceState">{{ item.provinceState }}</small>
+            <h3>{{ item.countryRegion }} : <span class="success">{{ item.confirmed }}</span> </h3>
             <span>{{ $t('recovery') }} : <b>{{ item.recovered }}</b></span> | 
             <span>{{ $t('deaths') }} : <b>{{ item.deaths }}</b></span><br>
           </router-link>
@@ -22,7 +23,8 @@
       </ul>
       <div>
         <small>{{ $t('language') }}</small>:<br>
-        <span class="language" @click="changeLocal('fr')">{{ $t('french') }}</span> | <span class="language" @click="changeLocal('en')">{{ $t('English') }}</span>
+        <span class="language" @click="changeLocal('fr')">{{ $t('french') }}</span> | <span class="language" @click="changeLocal('en')">{{ $t('english') }}</span> | 
+        <span class="language" @click="changeLocal('lg')">{{ $t('lingala') }}</span> | <span class="language" @click="changeLocal('sw')">{{ $t('swahili') }}</span>
         <hr>
         <a @click="sortByCases()">
           <span style="cursor:pointer">{{ $t('sortByCases')}}</span> &nbsp;
@@ -47,14 +49,6 @@
 <style scope>
   .home {
     padding: 10px;
-  }
-  .home ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 5px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
   }
   .home ul li a {
     display: inline-block;
@@ -89,10 +83,6 @@
     text-decoration: none;
     color: #333;
   }
-  .home .content {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-  }
   .home .content ul {
     height: calc(100vh - 100px);
     overflow: auto;
@@ -101,13 +91,14 @@
   .home .language {
     cursor: pointer;
     display: inline-block;
-    border-radius: 2px;
+    border-bottom: 3px solid transparent;
   }
   .home .language:hover {
-    background-color: #9AC553;
+    border-bottom: 3px solid #9AC553;
   }
   .home hr {
     border: none;
+    margin: 10px auto;
     border-bottom: 1px solid #9AC553;
   }
 </style>
@@ -135,10 +126,14 @@ export default {
   },
   created() {
     this.loading = true;
-    return Axios.get('https://corona.lmao.ninja/countries')
+    return Axios.get('https://covid19.mathdro.id/api/confirmed')
       .then(res => {
-        this.countries = res.data;
-        this.filteredList = res.data;
+        this.countries = res.data.map(i => {
+          i.iso2 = i.countryRegion === 'Congo (Kinshasa)' ? 'cd' : i.iso2;
+          i.flag = i.iso2 ? String(i.iso2).toLowerCase() : '';
+          return i;
+        });
+        this.filteredList = this.countries;
       })
       .catch(err => console.log(err))
       .finally(() => {
@@ -149,7 +144,7 @@ export default {
     filterData : function (value) {
       const v = value || this.search;
       this.filteredList = this.countries.filter(item => {
-          return item.country.toLowerCase().indexOf(v.toLowerCase()) > -1
+          return item.countryRegion.toLowerCase().indexOf(v.toLowerCase()) > -1
         });
     },
     changeLocal : function (local) {
@@ -158,7 +153,7 @@ export default {
     sortByCases : function () {
       this.ascending = !this.ascending;
       const order = this.ascending ? 'asc' : 'desc';
-      this.filteredList = _.orderBy(this.filteredList, 'cases', order);
+      this.filteredList = _.orderBy(this.filteredList, 'confirmed', order);
     },
     sortByDeaths : function () {
       this.ascending = !this.ascending;

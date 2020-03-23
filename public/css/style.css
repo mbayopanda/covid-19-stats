@@ -10,6 +10,68 @@ body > #app {
   width: 1200px;
   margin: auto;
 }
+
+.home > .content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.home > .content > ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 5px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 1180px) {
+  body > #app {
+    width: 100%;
+    margin: auto;
+  }
+  .home > .content {
+    grid-template-columns: 3fr 1fr;
+  }
+  .home > .content > ul {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1179px) {
+  body > #app {
+    width: 100%;
+    margin: auto;
+  }
+  .home > .content {
+    grid-template-areas: 
+      "content content sidebar";
+  }
+  .home > .content > ul {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 699px) {
+  body > #app {
+    width: 100%;
+    margin: auto;
+  }
+  .home > .content {
+    grid-template-areas: 
+      "sidebar"
+      "content";
+  }
+  .home > .content > ul {
+    grid-area: content;
+    grid-template-columns: 1fr;
+  }
+  .home > .content > div {
+    grid-area: sidebar;
+    margin: 10px 0;
+  }
+}
+
 h1, h2, h3, h4 {
   padding: 0;
   margin: 0;
